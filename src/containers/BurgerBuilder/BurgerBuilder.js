@@ -15,43 +15,75 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients:{
-            salad:0,
-            bacon:0,
-            cheese:0,
-            meat:0
+        ingredients: {
+            salad: 0,
+            bacon: 0,
+            cheese: 0,
+            meat: 0
         },
 
-        totalPrice:4
+        totalPrice: 4
     }
 
     addIngredientHandler = (type) => {
-        const oldCount =this.state.ingredients[type];
+        const oldCount = this.state.ingredients[type];
         const updatedCounted = oldCount + 1;
         const updatedIngredients = {
             ...this.state.ingredients
         };
         updatedIngredients[type] = updatedCounted;
 
-        const priceAddition =  INGREDIENT_PRICES[type];
+        const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice + priceAddition;
 
         this.setState({
-            totalPrice:newPrice,
-            ingredients:updatedIngredients
+            totalPrice: newPrice,
+            ingredients: updatedIngredients
         });
     }
 
     removeIngredientHandler = (type) => {
+        const oldCount = this.state.ingredients[type];
+        const updatedCounted = (oldCount <= 0) ? 0 : oldCount - 1;
+        const updatedIngredients = {
+            ...this.state.ingredients
+        };
+        updatedIngredients[type] = updatedCounted;
 
+        const priceAddition = (oldCount <= 0) ? 0 : INGREDIENT_PRICES[type];
+        const oldPrice = this.state.totalPrice;
+        const newPrice = oldPrice - priceAddition;
+
+        this.setState({
+            totalPrice: newPrice,
+            ingredients: updatedIngredients
+        });
+    }
+
+    checkDisableInfo = () => {
+        const disableInfo = {
+            ...this.state.ingredients
+        }
+
+        for( let key in disableInfo){
+            disableInfo[key]=!disableInfo[key]>0
+        }
+
+        return  disableInfo;
     }
 
     render() {
+        const disableInfo = this.checkDisableInfo();
         return (
             <Ax>
-                <Burger ingredients={this.state.ingredients}/>
-                <BuildControls ingredientAdded={this.addIngredientHandler}/>
+                <Burger ingredients={this.state.ingredients} />
+                <BuildControls 
+                    ingredientAdded={this.addIngredientHandler}
+                    ingredientRemove={this.removeIngredientHandler}
+                    disableInfoCheck={disableInfo}
+                    price={this.state.totalPrice}
+                />
             </Ax>
         );
     };
