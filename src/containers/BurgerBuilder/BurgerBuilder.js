@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Ax from '../../hoc/Ax';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -21,8 +23,20 @@ class BurgerBuilder extends Component {
             cheese: 0,
             meat: 0
         },
-
+        purchasing:false,
         totalPrice: 4
+    }
+    purchaseCancelHandler = ()=>{
+        this.setState({
+            purchasing:false
+        });
+        
+    }
+
+    purchaseHandler=()=>{
+        this.setState({
+            purchasing:true
+        });
     }
 
     addIngredientHandler = (type) => {
@@ -65,24 +79,34 @@ class BurgerBuilder extends Component {
         const disableInfo = {
             ...this.state.ingredients
         }
+        let purchasable = false;
 
-        for( let key in disableInfo){
-            disableInfo[key]=!disableInfo[key]>0
+        for (let key in disableInfo) {
+            if (disableInfo[key] > 0)
+                purchasable = true;
+            disableInfo[key] = !disableInfo[key] > 0;
+
         }
+        disableInfo["purchasable"] = purchasable;
 
-        return  disableInfo;
+        return disableInfo;
     }
 
     render() {
         const disableInfo = this.checkDisableInfo();
         return (
             <Ax>
+                <Modal show={this.state.purchasing}
+                    modalClosed={this.purchaseCancelHandler}>
+                    <OrderSummary ingredients={this.state.ingredients}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
-                <BuildControls 
+                <BuildControls
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemove={this.removeIngredientHandler}
                     disableInfoCheck={disableInfo}
                     price={this.state.totalPrice}
+                    ordered={this.purchaseHandler}
                 />
             </Ax>
         );
