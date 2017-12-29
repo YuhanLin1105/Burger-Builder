@@ -16,10 +16,10 @@ const sideDrawer = (props) => {
             <Backdrop show={props.open} clicked={props.closed}></Backdrop>
             <div className={attachedClasses.join(' ')}>
                 <div className={classes.Logo}>
-                    <Logo></Logo>
+                    <Logo/>
                 </div>
                 <nav>
-                    <NavItems></NavItems>
+                    <NavItems/>
                 </nav>
             </div>
         </Ax>
