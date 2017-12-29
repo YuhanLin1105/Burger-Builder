@@ -16,7 +16,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: "Your name"
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid:false
             },
             inputEmail: {
                 elementType: 'input',
@@ -24,7 +28,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: "Your email"
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid:false
             },
             inputStreet: {
                 elementType: 'input',
@@ -32,7 +40,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: "Street"
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid:false
             },
 
             inputZipCode: {
@@ -41,7 +53,13 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: "Postal code"
                 },
-                value: ''
+                value: '',
+                validation:{
+                    required: true,
+                    minLength:5,
+                    maxLength:5
+                },
+                valid:false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -57,25 +75,39 @@ class ContactData extends Component {
 
     }
 
+    checkValidity(value, rule){
+        let isValid=true;
+        
+        if(rule.required){
+            isValid = value.trim() !== ''&& isValid;
+        }
+
+        if(rule.minLength){
+            isValid = value.length>= rule.minLength && isValid;
+        }
+
+        if(rule.maxLength){
+            isValid = value.length<= rule.maxLength && isValid;
+        }
+
+        return isValid;
+    }
+
     orderHandler = (event) => {
         event.preventDefault();
         this.setState({
             loading: true
         });
 
+        const orderData = {};
+        for (let formElementKey in this.state.orderForm) {
+            orderData[formElementKey] = this.state.orderForm[formElementKey].value;
+        }
+
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            customer: {
-                name: "Yuhan",
-                address: {
-                    street: "aaa",
-                    zipCode: "1234",
-                    country: 'US'
-                },
-                email: 'test@test.com',
-                deliveryMethod: 'fastest'
-            }
+            orderData: orderData
 
         }
         axios.post('/order.json', order)
@@ -95,9 +127,11 @@ class ContactData extends Component {
 
     inputChangedHandler = (event, id) => {
         const transOrderForm = { ...this.state.orderForm };
-        const transOrderInput = {...transOrderForm[id]};
+        const transOrderInput = { ...transOrderForm[id] };
         transOrderInput.value = event.target.value;
-        transOrderForm[id]=transOrderInput;
+        transOrderForm[id] = transOrderInput;
+        transOrderForm[id].valid = this.checkValidity(transOrderForm[id].value, transOrderForm[id].validation)
+        console.log(transOrderForm[id].valid);
         this.setState({ orderForm: transOrderForm });
     }
 
@@ -111,7 +145,7 @@ class ContactData extends Component {
             });
         }
         let form = (
-            <form action="">
+            <form onSubmit={this.orderHandler}>
                 {formInputs.map((input) => (
                     <Input
                         inputtype={input.config.elementType}
@@ -119,8 +153,9 @@ class ContactData extends Component {
                         key={input.id}
                         value={input.config.value}
                         changed={(event) => { return this.inputChangedHandler(event, input.id) }}
+                        invalid={!input.config.valid}
                     />))}
-                <Button clicked={this.orderHandler} btnType="Success">ORDER</Button>
+                <Button btnType="Success">ORDER</Button>
             </form>
         );
         if (this.state.loading) {
