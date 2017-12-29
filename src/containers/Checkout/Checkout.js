@@ -8,10 +8,10 @@ import ContactData from '../Checkout/ContactData/ContactData'
 class Checkout extends Component{
     state={
         ingredients:{
-            salsd:1,
-            meat:1,
-            cheese:1,
-            bacon:1
+            salsd:0,
+            meat:0,
+            cheese:0,
+            bacon:0
         }
     }
 
