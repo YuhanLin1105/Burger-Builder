@@ -10,7 +10,6 @@ import Orders from './containers/Orders/Orders'
 class App extends Component {
   render() {
     return (
-      <div>
         <Layout>
           <Switch>
             <Route path='/Checkout' component={Checkout}/>
@@ -18,7 +17,6 @@ class App extends Component {
             <Route path='/' component={BurgerBuilder}/>
           </Switch> 
         </Layout>        
-      </div>
     );
   }
 }
