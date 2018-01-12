@@ -85,6 +85,24 @@ class ContactData extends Component {
 
     }
 
+    checkValidity(value, rule){
+        let isValid=true;
+        
+        if(rule.required){
+            isValid = value.trim() !== ''&& isValid;
+        }
+
+        if(rule.minLength){
+            isValid = value.length>= rule.minLength && isValid;
+        }
+
+        if(rule.maxLength){
+            isValid = value.length<= rule.maxLength && isValid;
+        }
+
+        return isValid;
+    }
+
     orderHandler = (event) => {
         event.preventDefault();
         this.setState({
@@ -159,6 +177,7 @@ class ContactData extends Component {
                         invalid={!input.config.valid}
                         touched = {input.config.touched}
                         changed={(event) => { return this.inputChangedHandler(event, input.id) }}
+                        invalid={!input.config.valid}
                     />))}
                 <Button btnType="Success" disabled={!this.state.formValid}>ORDER</Button>
             </form>
