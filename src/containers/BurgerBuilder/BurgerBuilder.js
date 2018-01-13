@@ -45,42 +45,6 @@ class BurgerBuilder extends Component {
         });
     }
 
-    // addIngredientHandler = (type) => {
-    //     const oldCount = this.state.ingredients[type];
-    //     const updatedCounted = oldCount + 1;
-    //     const updatedIngredients = {
-    //         ...this.state.ingredients
-    //     };
-    //     updatedIngredients[type] = updatedCounted;
-
-    //     const priceAddition = INGREDIENT_PRICES[type];
-    //     const oldPrice = this.state.totalPrice;
-    //     const newPrice = oldPrice + priceAddition;
-
-    //     this.setState({
-    //         totalPrice: newPrice,
-    //         ingredients: updatedIngredients
-    //     });
-    // }
-
-    // removeIngredientHandler = (type) => {
-    //     const oldCount = this.state.ingredients[type];
-    //     const updatedCounted = (oldCount <= 0) ? 0 : oldCount - 1;
-    //     const updatedIngredients = {
-    //         ...this.state.ingredients
-    //     };
-    //     updatedIngredients[type] = updatedCounted;
-
-    //     const priceAddition = (oldCount <= 0) ? 0 : INGREDIENT_PRICES[type];
-    //     const oldPrice = this.state.totalPrice;
-    //     const newPrice = oldPrice - priceAddition;
-
-    //     this.setState({
-    //         totalPrice: newPrice,
-    //         ingredients: updatedIngredients
-    //     });
-    // }
-
     checkDisableInfo = () => {
         const disableInfo = {
             ...this.props.ings
@@ -138,9 +102,9 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice,
-        error: state.error
+        ings: state.burger.ingredients,
+        price: state.burger.totalPrice,
+        error: state.burger.error
     };
 };
 

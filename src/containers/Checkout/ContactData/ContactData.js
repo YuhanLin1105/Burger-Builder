@@ -7,6 +7,8 @@ import classes from './ContactData.css';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { updateObject, checkValidity } from '../../../shared/utility';
+import * as actionCreator from '../../../store/actions/index';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 
 class ContactData extends Component {
@@ -103,19 +105,8 @@ class ContactData extends Component {
             formData
 
         }
-        axios.post('/order.json', order)
-            .then(response => {
-                this.setState({
-                    loading: false,
-                });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                this.setState({
-                    loading: false,
 
-                });
-            });
+        this.props.onBurgerPurchasing(order);
     }
 
     inputChangedHandler = (event, id) => {
@@ -179,9 +170,15 @@ class ContactData extends Component {
 
 const mapStateToProps = state =>{
     return {
-        ings:state.ingredients,
-        price:state.totalPrice
+        ings:state.burger.ingredients,
+        price:state.burger.totalPrice,
+        loading:state.order.loading
     };
 };
+const mapDispatchToProps = dispatch=>{
+    return{
+        onBurgerPurchasing:(orderData)=>dispatch(actionCreator.purchaseBurger(orderData))
+    }
+}
 
-export default connect(mapStateToProps)(ContactData);
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler( ContactData,axios));
