@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Order from '../../components/Order/Order';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { Redirect } from 'react-router-dom';
 import * as actionCreator from '../../store/actions/index';
-import { connect } from 'react-redux';
+
 
 class Orders extends Component {
 
     componentDidMount() {
-        this.props.fecthingOrders(this.props.token);
+        this.props.fecthingOrders(this.props.token,this.props.userId);
     }
 
     render() {
@@ -31,13 +32,14 @@ const mapStateToProps = state => {
     return {
         orders: state.order.orders,
         loading: state.order.loading,
-        token:state.auth.token
+        token:state.auth.token,
+        userId:state.auth.userId
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fecthingOrders: (token) => dispatch(actionCreator.fetchOrders(token))
+        fecthingOrders: (token,userId) => dispatch(actionCreator.fetchOrders(token,userId))
     }
 }
 
