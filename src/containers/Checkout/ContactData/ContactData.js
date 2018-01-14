@@ -83,16 +83,12 @@ class ContactData extends Component {
 
             }
         },
-        loading: false,
         formValid:false
 
     }
 
     orderHandler = (event) => {
         event.preventDefault();
-        this.setState({
-            loading: true
-        });
 
         const formData={};
         for(let key in this.state.orderForm){
@@ -106,7 +102,7 @@ class ContactData extends Component {
 
         }
 
-        this.props.onBurgerPurchasing(order);
+        this.props.onBurgerPurchasing(order,this.props.token);
     }
 
     inputChangedHandler = (event, id) => {
@@ -155,7 +151,7 @@ class ContactData extends Component {
                 <Button btnType="Success" disabled={!this.state.formValid}>ORDER</Button>
             </form>
         );
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />;
         }
         return (<div className={classes.ContactData}>
@@ -172,12 +168,13 @@ const mapStateToProps = state =>{
     return {
         ings:state.burger.ingredients,
         price:state.burger.totalPrice,
-        loading:state.order.loading
+        loading:state.order.loading,
+        token:state.auth.token
     };
 };
 const mapDispatchToProps = dispatch=>{
     return{
-        onBurgerPurchasing:(orderData)=>dispatch(actionCreator.purchaseBurger(orderData))
+        onBurgerPurchasing:(orderData,token)=>dispatch(actionCreator.purchaseBurger(orderData,token))
     }
 }
 

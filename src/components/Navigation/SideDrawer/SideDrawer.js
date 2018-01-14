@@ -7,7 +7,7 @@ import Ax from '../../../hoc/Ax'
 
 const sideDrawer = (props) => {
     let attachedClasses = [classes.SideDrawer, classes.Close];
-    if(props.open){
+    if (props.open) {
         attachedClasses = [classes.SideDrawer, classes.Open];
     }
 
@@ -16,10 +16,10 @@ const sideDrawer = (props) => {
             <Backdrop show={props.open} clicked={props.closed}></Backdrop>
             <div className={attachedClasses.join(' ')}>
                 <div className={classes.Logo}>
-                    <Logo/>
+                    <Logo />
                 </div>
                 <nav>
-                    <NavItems/>
+                    <NavItems isAuth={props.isAuth} />
                 </nav>
             </div>
         </Ax>

@@ -10,27 +10,7 @@ import { connect } from 'react-redux';
 class Orders extends Component {
 
     componentDidMount() {
-        console.log("OrdersDidMount");
-        this.props.fecthingOrders();
-        // axios.get('/orders.json')
-        //     .then(res => {
-        //         const fetchOrders = [];
-        //         for (let key in res.data) {
-        //             fetchOrders.push(
-        //                 {
-        //                     ...res.data[key],
-        //                     id: key
-        //                 });
-        //         }
-        //         console.log(fetchOrders);
-        //         this.setState({
-        //             loading: false,
-        //             orders: fetchOrders
-        //         });
-        //     })
-        //     .catch(err => {
-        //         this.setState({ loading: false });
-        //     })
+        this.props.fecthingOrders(this.props.token);
     }
 
     render() {
@@ -50,13 +30,14 @@ class Orders extends Component {
 const mapStateToProps = state => {
     return {
         orders: state.order.orders,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token:state.auth.token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fecthingOrders: () => dispatch(actionCreator.fetchOrders())
+        fecthingOrders: (token) => dispatch(actionCreator.fetchOrders(token))
     }
 }
 

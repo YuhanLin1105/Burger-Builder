@@ -16,10 +16,11 @@ const withErrorHandler = (WrappedComponent, axios) => {
                 return req;
             });
 
-            this.resIntercepter=axios.interceptors.response.use(res=>res, error=>{
+            this.resIntercepter=axios.interceptors.response.use(res=>res, err=>{
                 this.setState({
-                    error:error
+                    error:err
                 });
+                return Promise.reject(err)
             });
         }
 
