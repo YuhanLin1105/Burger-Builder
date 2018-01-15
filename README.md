@@ -6,7 +6,7 @@ The most parts of project followed the instruction of [Maximilian](https://www.u
 
 This project allows you to signin, custom your burger, order your burger to the server and check your ordrs form server.
 
-Click [demo](https://burger-builder-l.firebaseapp.com/) to playground.
+Click [demo](https://burger-builder-l.firebaseapp.com/) to play.
 
 ## Interface preview
 
