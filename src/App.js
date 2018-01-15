@@ -34,8 +34,6 @@ class App extends Component {
         </Switch>)
     }
 
-
-
     return (
       <Layout>
         {routes}
