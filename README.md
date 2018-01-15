@@ -1,6 +1,8 @@
-# Burger-Build
+# Burger-Builder
 
-This is a SPA build with React, Redux, CSS module and init with [Create React App](https://github.com/facebookincubator/create-react-app).
+This is a Single Page Aplication built with React, Redux, CSS module and init with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+The most parts of project followed the instruction of [Maximilian](https://www.udemy.com/user/maximilian-schwarzmuller/).
 
 This project allows you to signin, custom your burger, order your burger to the server and check your ordrs form server.
 
